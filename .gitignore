@@ -40,4 +40,6 @@ Thumbs.db
 
 # Other project files not needed
 fastworkflow-article-*.md
+fastworkflow_fastapi_*.md
 test_box.pdf
+action.jsonl

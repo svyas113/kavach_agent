@@ -69,7 +69,7 @@ class ResponseGenerator:
             if input.notes:
                 message += f"\n   📝 Notes: {input.notes}"
             message += f"\n\nYou now have {len(session.cart)} item(s) in your cart."
-            message += "\n\nWould you like to:\n• Add more items?\n• View your cart?\n• Proceed to checkout?"
+            message += "\n\n**What would you like to do next?**\n• Continue browsing and add more items\n• Ask questions about products\n• View your cart\n• Proceed to checkout when ready"
         else:
             message = "❌ Sorry, there was an error adding the item to your cart. Please try again."
 

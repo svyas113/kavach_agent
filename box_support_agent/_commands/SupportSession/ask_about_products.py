@@ -91,7 +91,7 @@ Please specify which product you'd like to learn more about, {session.customer_n
         """The framework will call this function to process the command"""
         response = self._process_command(workflow, command_parameters)
 
-        additional_info = "\n\n**Ready to order?** Just let me know what you'd like to add to your cart!"
+        additional_info = "\n\n**Need more details?** Feel free to ask about specific sizes, colors, customization options, or any other questions you might have!"
 
         return fastworkflow.CommandOutput(
             workflow_id=workflow.id,
