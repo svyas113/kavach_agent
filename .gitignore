@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Passwords and API Keys
+*.passwords.env
+fastworkflow.passwords.env
+
+# Training data and models (generated)
+___command_info/
+__command_info/
+___workflow_contexts/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+
+# Other project files not needed
+fastworkflow-article-*.md
+test_box.pdf
