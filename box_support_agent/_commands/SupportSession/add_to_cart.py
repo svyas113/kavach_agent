@@ -1,5 +1,6 @@
 """Add items to the shopping cart"""
 
+from typing import Optional
 import fastworkflow
 from fastworkflow.train.generate_synthetic import generate_diverse_utterances
 from pydantic import BaseModel, Field
@@ -19,9 +20,10 @@ class Signature:
             description="Specific product name/size/specification",
             examples=['8x8x5 Top Window', '10x10x5 L Window', '12 inch Black MDF', '10x10 White Drum Board', 'Standard Cutlery Kit'],
         )
-        quantity: int = Field(
-            description="Quantity to order",
-            examples=[100, 500, 1000],
+        quantity: Optional[int] = Field(
+            description="Quantity to order - REQUIRED field. If customer doesn't specify quantity, ASK them for it. Do not assume a default quantity.",
+            examples=[100, 500, 1000, 250, 2000],
+            default=None,
             gt=0
         )
         notes: str = Field(
@@ -41,6 +43,10 @@ class Signature:
         "add to cart 200 drum boards 10x10 white",
         "I'd like 300 top window boxes 10x10x5 in pastel colors",
         "order 250 L window boxes 12x12x8",
+        "I want window boxes 8x8x5",
+        "add MDF boards to cart",
+        "I need some cutlery kits",
+        "can I order drum boards 10x10",
     ]
 
     @staticmethod
@@ -56,6 +62,13 @@ class ResponseGenerator:
 
     def _process_command(self, workflow: fastworkflow.Workflow, input: Signature.Input) -> Signature.Output:
         session: SupportSession = workflow.command_context_for_response_generation
+
+        # Check if quantity is missing
+        if input.quantity is None or input.quantity <= 0:
+            message = f"I'd be happy to add **{input.product_type} ({input.product_name})** to your cart!\n\n"
+            message += "📦 **How many would you like to order?**\n\n"
+            message += "Please let me know the quantity, and I'll add it to your cart right away."
+            return Signature.Output(success=False, message=message)
 
         success = session.add_to_cart(
             product_type=input.product_type,

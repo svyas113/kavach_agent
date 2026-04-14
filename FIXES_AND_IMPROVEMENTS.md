@@ -191,12 +191,37 @@ User > checkout
 [Shows message that cart is empty]
 ```
 
+### 6. ❌ Auto-Selecting Quantity Instead of Asking
+**Problem:** When user doesn't specify quantity, agent was defaulting to 1 instead of asking.
+
+**Example:**
+```
+User > I want window boxes 8x8x5
+Agent > ✅ Added 1 x Window Box... [WRONG - shouldn't assume]
+```
+
+**Fix:** ✅ Updated `add_to_cart.py` to ask for quantity when missing
+
+**New Behavior:**
+- Made `quantity` Optional instead of required
+- Added validation check in ResponseGenerator
+- If quantity is None or <= 0, agent now asks:
+  ```
+  I'd be happy to add Window Box (8x8x5 Top Window) to your cart!
+  
+  📦 How many would you like to order?
+  
+  Please let me know the quantity, and I'll add it to your cart right away.
+  ```
+- Added training utterances without quantities to teach the model to handle this case
+
 ## Summary of Improvements
 
 ✅ **Fixed critical product hallucination issue** (via proper startup documentation)
 ✅ **Added remove from cart functionality**
 ✅ **Added clear cart functionality**
 ✅ **Made agent more conversational and less pushy**
+✅ **Agent now asks for quantity instead of assuming**
 ✅ **Improved user guidance at each step**
 ✅ **Better error handling and feedback**
 ✅ **Clear documentation on correct usage**
